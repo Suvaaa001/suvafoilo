@@ -27,7 +27,7 @@ export default function Contact() {
 
     emailjs.send(
       "service_7pcv6v9",
-      "template_zq6pz13",
+      "template_r38yp0p",
       {
         name: formData.name,
         email: formData.email,
