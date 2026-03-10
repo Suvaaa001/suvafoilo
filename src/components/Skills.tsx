@@ -56,8 +56,14 @@ export default function Skills() {
             <motion.div
               key={index}
               variants={itemVariants}
-              whileHover={{ scale: 1.05, borderColor: 'rgba(0, 243, 255, 0.5)' }}
-              className="glass-card p-6 rounded-2xl border border-white/5 relative overflow-hidden group"
+              whileHover={{ 
+                scale: 1.05, 
+                y: -8, 
+                borderColor: "rgba(188, 19, 254, 0.5)", 
+                boxShadow: "0 0 20px rgba(188, 19, 254, 0.2)" 
+              }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+              className="glass-card p-6 rounded-2xl border border-white/5 relative overflow-hidden group z-10"
             >
               <div className="absolute top-0 left-0 h-1 bg-gradient-to-r from-[#00f3ff] to-[#bc13fe] transition-all duration-500" style={{ width: `${skill.level}%`, opacity: 0.5 }} />
               <div className="absolute top-0 left-0 h-1 bg-gradient-to-r from-[#00f3ff] to-[#bc13fe] transition-all duration-500 w-0 group-hover:w-full opacity-100" style={{ maxWidth: `${skill.level}%` }} />

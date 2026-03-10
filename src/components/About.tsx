@@ -53,13 +53,22 @@ export default function About() {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              whileHover={{ y: -10 }}
-              className="glass-card p-8 rounded-2xl flex flex-col items-center text-center group"
+              whileHover={{ 
+                scale: 1.05, 
+                y: -8, 
+                borderColor: "rgba(0, 243, 255, 0.5)", 
+                boxShadow: "0 0 20px rgba(0, 243, 255, 0.2)" 
+              }}
+              transition={{ duration: 0.3, ease: "easeOut", delay: index * 0.1 }}
+              className="glass-card p-8 rounded-2xl flex flex-col items-center text-center group relative z-10"
             >
-              <div className="mb-6 p-4 rounded-full bg-white/5 group-hover:bg-white/10 transition-colors">
+              <motion.div 
+                whileHover={{ scale: 1.2, rotate: 10, filter: "drop-shadow(0 0 10px rgba(0,243,255,0.8))" }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
+                className="mb-6 p-4 rounded-full bg-white/5"
+              >
                 {card.icon}
-              </div>
+              </motion.div>
               <h3 className="text-xl font-display font-semibold mb-3 text-white">{card.title}</h3>
               <p className="text-gray-400 text-sm leading-relaxed">{card.desc}</p>
             </motion.div>

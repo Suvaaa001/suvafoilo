@@ -65,15 +65,24 @@ export default function Hero() {
             transition={{ delay: 0.8, duration: 0.8 }}
             className="flex flex-col sm:flex-row items-center justify-center gap-4"
           >
-            <a href="#projects" className="glow-effect relative inline-flex group">
-              <div className="absolute transition-all duration-1000 opacity-70 -inset-px bg-gradient-to-r from-[#00f3ff] to-[#bc13fe] rounded-full blur-lg group-hover:opacity-100 group-hover:-inset-1 group-hover:duration-200 animate-tilt"></div>
-              <button className="relative inline-flex items-center justify-center px-8 py-4 text-sm font-bold text-white transition-all duration-200 bg-[#050505] font-display rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 border border-white/10">
-                View Projects
-              </button>
-            </a>
-            <a href="#contact" className="px-8 py-4 text-sm font-bold text-white transition-all duration-200 bg-transparent font-display rounded-full hover:bg-white/5 border border-white/10">
+            <motion.a 
+              href="#projects" 
+              whileHover={{ scale: 1.1, boxShadow: "0 0 20px rgba(0, 243, 255, 0.6)", borderColor: "rgba(0, 243, 255, 0.8)" }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+              className="relative inline-flex items-center justify-center px-8 py-4 text-sm font-bold text-white bg-[#050505] font-display rounded-full border border-white/10 z-20"
+            >
+              View Projects
+            </motion.a>
+            <motion.a 
+              href="#contact" 
+              whileHover={{ scale: 1.1, boxShadow: "0 0 20px rgba(188, 19, 254, 0.6)", borderColor: "rgba(188, 19, 254, 0.8)", backgroundColor: "rgba(188, 19, 254, 0.1)" }}
+              whileTap={{ scale: 0.95 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+              className="px-8 py-4 text-sm font-bold text-white bg-transparent font-display rounded-full border border-white/10 z-20"
+            >
               Contact Me
-            </a>
+            </motion.a>
           </motion.div>
         </motion.div>
       </div>

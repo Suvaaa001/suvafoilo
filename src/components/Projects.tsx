@@ -58,8 +58,14 @@ export default function Projects() {
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="glass-card rounded-2xl overflow-hidden group"
+              whileHover={{ 
+                scale: 1.05, 
+                y: -8, 
+                borderColor: "rgba(0, 243, 255, 0.5)", 
+                boxShadow: "0 0 20px rgba(0, 243, 255, 0.2)" 
+              }}
+              transition={{ duration: 0.3, ease: "easeOut", delay: index * 0.1 }}
+              className="glass-card rounded-2xl overflow-hidden group relative z-10"
             >
               <div className="relative h-64 overflow-hidden">
                 <div className="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors duration-500 z-10" />
@@ -70,12 +76,24 @@ export default function Projects() {
                   referrerPolicy="no-referrer"
                 />
                 <div className="absolute top-4 right-4 z-20 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0">
-                  <a href={project.github} className="p-2 bg-black/50 backdrop-blur-md rounded-full text-white hover:text-[#00f3ff] transition-colors">
+                  <motion.a 
+                    href={project.github} 
+                    whileHover={{ scale: 1.2, rotate: 10, filter: "drop-shadow(0 0 10px rgba(0,243,255,0.8))" }}
+                    whileTap={{ scale: 0.9 }}
+                    transition={{ duration: 0.3, ease: "easeOut" }}
+                    className="p-2 bg-black/50 backdrop-blur-md rounded-full text-white"
+                  >
                     <Github size={20} />
-                  </a>
-                  <a href="#" className="p-2 bg-black/50 backdrop-blur-md rounded-full text-white hover:text-[#bc13fe] transition-colors">
+                  </motion.a>
+                  <motion.a 
+                    href="#" 
+                    whileHover={{ scale: 1.2, rotate: -10, filter: "drop-shadow(0 0 10px rgba(188,19,254,0.8))" }}
+                    whileTap={{ scale: 0.9 }}
+                    transition={{ duration: 0.3, ease: "easeOut" }}
+                    className="p-2 bg-black/50 backdrop-blur-md rounded-full text-white"
+                  >
                     <ExternalLink size={20} />
-                  </a>
+                  </motion.a>
                 </div>
               </div>
               
