@@ -6,51 +6,109 @@ export default function CustomCursor() {
   const [isHovering, setIsHovering] = useState(false);
 
   useEffect(() => {
-    const updateMousePosition = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
+    const updateMousePosition = (e: MouseEvent | TouchEvent) => {
+      let clientX, clientY;
+      
+      if ('touches' in e) {
+        clientX = e.touches[0].clientX;
+        clientY = e.touches[0].clientY;
+      } else {
+        clientX = e.clientX;
+        clientY = e.clientY;
+      }
+      
+      setMousePosition({ x: clientX, y: clientY });
       
       // Check if hovering over clickable elements
       const target = e.target as HTMLElement;
-      const isClickable = window.getComputedStyle(target).cursor === 'pointer' || 
-                          target.tagName.toLowerCase() === 'a' || 
-                          target.tagName.toLowerCase() === 'button' ||
-                          target.closest('a') || 
-                          target.closest('button');
+      let isClickable = false;
+      
+      if (target && target.tagName) {
+        try {
+          isClickable = window.getComputedStyle(target).cursor === 'pointer' || 
+                        target.tagName.toLowerCase() === 'a' || 
+                        target.tagName.toLowerCase() === 'button' ||
+                        !!target.closest('a') || 
+                        !!target.closest('button');
+        } catch (err) {
+          // Ignore errors for SVG elements or text nodes
+        }
+      }
                           
-      setIsHovering(!!isClickable);
+      setIsHovering(isClickable);
     };
     
     window.addEventListener('mousemove', updateMousePosition);
-    return () => window.removeEventListener('mousemove', updateMousePosition);
+    window.addEventListener('touchmove', updateMousePosition, { passive: true });
+    window.addEventListener('touchstart', updateMousePosition, { passive: true });
+    
+    return () => {
+      window.removeEventListener('mousemove', updateMousePosition);
+      window.removeEventListener('touchmove', updateMousePosition);
+      window.removeEventListener('touchstart', updateMousePosition);
+    };
   }, []);
+
+  const sparkles = [
+    { id: 1, x: -25, y: -35, size: 4, delay: 0 },
+    { id: 2, x: 30, y: -25, size: 3, delay: 0.2 },
+    { id: 3, x: -20, y: 30, size: 5, delay: 0.4 },
+    { id: 4, x: 35, y: 20, size: 3, delay: 0.1 },
+    { id: 5, x: 0, y: -45, size: 4, delay: 0.5 },
+    { id: 6, x: -40, y: 0, size: 3, delay: 0.3 },
+  ];
 
   return (
     <>
-      {/* Main cursor glow */}
       <motion.div
-        className="fixed top-0 left-0 w-[500px] h-[500px] rounded-full pointer-events-none z-0 mix-blend-screen"
+        className="fixed top-0 left-0 w-[600px] h-[600px] rounded-full pointer-events-none z-0 hidden md:block"
         animate={{
-          x: mousePosition.x - 250,
-          y: mousePosition.y - 250,
+          x: mousePosition.x - 300,
+          y: mousePosition.y - 300,
+          scale: isHovering ? 1.1 : 1,
         }}
         transition={{ type: 'tween', ease: 'linear', duration: 0.1 }}
         style={{
-          background: 'radial-gradient(circle, rgba(0,243,255,0.08) 0%, rgba(188,19,254,0.03) 40%, rgba(0,0,0,0) 70%)',
+          backdropFilter: 'blur(32px)',
+          WebkitBackdropFilter: 'blur(32px)',
+          maskImage: 'radial-gradient(circle, black 0%, transparent 60%)',
+          WebkitMaskImage: 'radial-gradient(circle, black 0%, transparent 60%)',
+          background: isHovering 
+            ? 'radial-gradient(circle, rgba(188,19,254,0.15) 0%, rgba(0,0,0,0) 60%)' 
+            : 'radial-gradient(circle, rgba(0,243,255,0.1) 0%, rgba(0,0,0,0) 60%)',
         }}
       />
-      
-      {/* Small cursor dot */}
+
       <motion.div
-        className="fixed top-0 left-0 w-4 h-4 rounded-full pointer-events-none z-50 mix-blend-screen bg-[#00f3ff] shadow-[0_0_10px_#00f3ff]"
+        className="fixed top-0 left-0 w-[100px] h-[100px] pointer-events-none z-50 hidden md:block"
         animate={{
-          x: mousePosition.x - 8,
-          y: mousePosition.y - 8,
-          scale: isHovering ? 1.5 : 1,
-          backgroundColor: isHovering ? '#bc13fe' : '#00f3ff',
-          boxShadow: isHovering ? '0 0 15px #bc13fe' : '0 0 10px #00f3ff'
+          x: mousePosition.x - 50,
+          y: mousePosition.y - 50,
         }}
-        transition={{ type: 'tween', ease: 'linear', duration: 0.05 }}
-      />
+        transition={{ type: 'tween', ease: 'linear', duration: 0.1 }}
+      >
+        {isHovering && sparkles.map((sparkle) => (
+          <motion.div
+            key={sparkle.id}
+            className="absolute rounded-full bg-white"
+            style={{
+              left: 50 + sparkle.x,
+              top: 50 + sparkle.y,
+              width: sparkle.size,
+              height: sparkle.size,
+              boxShadow: '0 0 10px 2px rgba(188,19,254,0.8)',
+            }}
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: [0, 1, 0], scale: [0, 1.5, 0] }}
+            transition={{
+              duration: 0.8,
+              repeat: Infinity,
+              delay: sparkle.delay,
+              ease: "easeInOut",
+            }}
+          />
+        ))}
+      </motion.div>
     </>
   );
 }
