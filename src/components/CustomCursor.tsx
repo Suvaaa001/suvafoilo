@@ -20,7 +20,7 @@ export default function CustomCursor() {
       setMousePosition({ x: clientX, y: clientY });
       
       // Check if hovering over clickable elements
-      const target = e.target as HTMLElement;
+      const target = document.elementFromPoint(clientX, clientY) as HTMLElement;
       let isClickable = false;
       
       if (target && target.tagName) {
@@ -61,7 +61,7 @@ export default function CustomCursor() {
   return (
     <>
       <motion.div
-        className="fixed top-0 left-0 w-[600px] h-[600px] rounded-full pointer-events-none z-0 hidden md:block"
+        className="fixed top-0 left-0 w-[600px] h-[600px] rounded-full pointer-events-none z-0"
         animate={{
           x: mousePosition.x - 300,
           y: mousePosition.y - 300,
@@ -80,7 +80,7 @@ export default function CustomCursor() {
       />
 
       <motion.div
-        className="fixed top-0 left-0 w-[100px] h-[100px] pointer-events-none z-50 hidden md:block"
+        className="fixed top-0 left-0 w-[100px] h-[100px] pointer-events-none z-50"
         animate={{
           x: mousePosition.x - 50,
           y: mousePosition.y - 50,
